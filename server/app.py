@@ -26,17 +26,22 @@ def games():
     games = [game.to_dict() for game in Game.query.all()]
     
     response = make_response(
-        jsonify(games),
+        games,
         200
     )
-
+    
     return response
 
 @app.route('/games/<int:id>')
 def game_by_id(id):
     game = Game.query.filter(Game.id == id).first()
 
-    game_dict = game.to_dict()
+    game_dict = {
+        "title": game.title,
+        "genre": game.genre,
+        "platform": game.platform,
+        "price": game.price,
+    }
 
     response = make_response(
         game_dict,
